@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Diabetes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #e0f7fa 0%, #ede7f6 100%);
+            display: flex;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: #90caf9;
+            height: 100vh;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 30px;
+        }
+
+        .sidebar .logo h2 {
+            font-size: 22px;
+            color: #ff4081;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .sidebar .logout {
+            padding: 20px;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar .logout:hover {
+            background-color: #42a5f5;
+            transform: scale(1.1);
+        }
+
+        /* Main content styling */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+        }
+
+        .main-content h2 {
+            text-align: center;
+            color: #0097a7;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label {
+            font-size: 16px;
+            color: #00796b;
+            margin-bottom: 8px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container input:hover {
+            box-shadow: 0 0 8px rgba(0, 150, 136, 0.3);
+        }
+
+        .form-container input:focus {
+            border-color: #80cbc4;
+            box-shadow: 0 0 8px rgba(0, 150, 136, 0.5);
+        }
+
+        .form-container button {
+            grid-column: span 2;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            color: #fff;
+            background: linear-gradient(to right, #80cbc4, #ff80ab);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background: linear-gradient(to right, #009688, #ff4081);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <h2>DiaPredict</h2>
+        </div>
+
+        <ul>
+            <li><a href="del2.html">Home</a></li> <!-- Added Home link -->
+            <li><a href="profile.html">Your Profile</a></li>
+            <li><a href="health_report.html">Health Report</a></li>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="contact.html">Contact us</a></li>
+            <li><a href="help.html">Help and Support</a></li>
+            <!-- Removed App mode link -->
+        </ul>
+
+        <div class="logout">LOG OUT</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>PREDICT DIABETES</h2>
+        <div class="form-container">
+            <div>
+                <label for="pregnancies">Pregnancies</label>
+                <input type="number" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies">
+            </div>
+            <div>
+                <label for="blood-pressure">Blood Pressure</label>
+                <input type="number" id="blood-pressure" name="blood-pressure" placeholder="Enter blood pressure">
+            </div>
+            <div>
+                <label for="insulin-level">Insulin Level</label>
+                <input type="number" id="insulin-level" name="insulin-level" placeholder="Enter insulin level">
+            </div>
+            <div>
+                <label for="diabetes-pedigree">Diabetes Pedigree Function</label>
+                <input type="number" id="diabetes-pedigree" name="diabetes-pedigree" step="0.01" placeholder="Enter diabetes pedigree">
+            </div>
+            <div>
+                <label for="glucose-level">Glucose Level</label>
+                <input type="number" id="glucose-level" name="glucose-level" placeholder="Enter glucose level">
+            </div>
+            <div>
+                <label for="skin-thickness">Skin Thickness</label>
+                <input type="number" id="skin-thickness" name="skin-thickness" placeholder="Enter skin thickness">
+            </div>
+            <div>
+                <label for="bmi">Body Mass Index</label>
+                <input type="number" id="bmi" name="bmi" placeholder="Enter BMI">
+            </div>
+            <div>
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" placeholder="Enter age">
+            </div>
+            <button type="submit">Check Results</button>
+        </div>
+    </div>
+
+</body>
+</html>

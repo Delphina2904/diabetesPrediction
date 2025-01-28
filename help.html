@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiaPredict - Help and Support</title>
+    <style>
+        /* Same base styling as About Us and Contact Us */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #e0f7fa 0%, #ede7f6 100%);
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #90caf9;
+            height: 100vh;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 30px;
+        }
+
+        .sidebar .logo h2 {
+            font-size: 22px;
+            color: #ff4081;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #ffffff33;
+            transform: translateX(10px);
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .logout {
+            padding: 20px;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar .logout:hover {
+            background-color: #42a5f5;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .help-support-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .help-support-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .help-support-container h2 {
+            color: #424242;
+            margin-bottom: 20px;
+        }
+
+        .help-support-container p {
+            color: #616161;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .topbar img {
+            height: 30px;
+            margin-left: 15px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .topbar img:nth-child(1) {
+            width: 40px;
+        }
+
+        .topbar img:nth-child(2) {
+            width: 30px;
+        }
+
+        .topbar img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <h2>DiaPredict</h2>
+        </div>
+
+        <ul>
+            <li><a href="del2.html">Home</a></li> 
+            <li><a href="profile.html">Your Profile</a></li>
+            <li><a href="health_report.html">Health Report</a></li>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="contact.html">Contact us</a></li>
+            <li><a href="help.html">Help and Support</a></li>
+        </ul>
+
+        <div class="logout">LOG OUT</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="help-support-container">
+            <h2>Help and Support</h2>
+            <p>
+                At DiaPredict, we are committed to providing the best possible experience to our users. If you are facing any issues or need assistance, you can refer to the following resources:
+            </p>
+            <p>
+                <strong>FAQs:</strong> Visit our <a href="faq.html">FAQ section</a> for common queries and solutions.<br>
+                <strong>Support:</strong> For more help, please email us at support@diapredict.com.
+            </p>
+        </div>
+    </div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <img src="help.png" alt="Help Icon">
+        <img src="profile.jpg" alt="User Icon">
+    </div>
+
+</body>
+</html>
