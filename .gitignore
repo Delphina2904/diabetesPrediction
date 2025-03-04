@@ -1,0 +1,8 @@
+# Ignore node_modules folder
+node_modules/
+
+# Optionally ignore package-lock.json if you want (though many projects do commit this)
+# package-lock.json
+
+# Ignore any other files you don’t want to commit
+*.log

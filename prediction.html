@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Diabetes Prediction</title>
+</head>
+<body>
+  <h1>Diabetes Prediction</h1>
+  <form id="predictForm">
+    <label for="glucose">Glucose:</label>
+    <input type="number" id="glucose" required><br>
+    
+    <label for="bmi">BMI:</label>
+    <input type="number" id="bmi" required><br>
+    
+    <!-- Add other input fields as needed -->
+    
+    <button type="submit">Check Results</button>
+  </form>
+  
+  <div id="result"></div>
+  
+  <script>
+    // When the form is submitted
+    document.getElementById('predictForm').addEventListener('submit', async (event) => {
+      event.preventDefault();  // Prevent the page from reloading
+
+      // Collect the input values
+      const inputData = {
+        glucose: Number(document.getElementById('glucose').value),
+        bmi: Number(document.getElementById('bmi').value)
+        // Add other fields here as needed
+      };
+
+      try {
+        // Send the data to our backend prediction endpoint
+        const response = await fetch('http://localhost:5000/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(inputData)
+        });
+
+        const data = await response.json();
+
+        // Display the prediction result
+        document.getElementById('result').innerText = 'Prediction: ' + data.prediction;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('result').innerText = 'Error getting prediction.';
+      }
+    });
+  </script>
+</body>
+</html>

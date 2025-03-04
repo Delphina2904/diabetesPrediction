@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predict Diabetes</title>
     <style>
+        /* Your existing CSS remains unchanged */
         * {
             margin: 0;
             padding: 0;
@@ -157,13 +158,12 @@
         </div>
 
         <ul>
-            <li><a href="del2.html">Home</a></li> <!-- Added Home link -->
+            <li><a href="del2.html">Home</a></li>
             <li><a href="profile.html">Your Profile</a></li>
             <li><a href="health_report.html">Health Report</a></li>
             <li><a href="about.html">About us</a></li>
             <li><a href="contact.html">Contact us</a></li>
             <li><a href="help.html">Help and Support</a></li>
-            <!-- Removed App mode link -->
         </ul>
 
         <div class="logout">LOG OUT</div>
@@ -175,39 +175,81 @@
         <div class="form-container">
             <div>
                 <label for="pregnancies">Pregnancies</label>
-                <input type="number" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies">
+                <input type="number" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies" required>
             </div>
             <div>
                 <label for="blood-pressure">Blood Pressure</label>
-                <input type="number" id="blood-pressure" name="blood-pressure" placeholder="Enter blood pressure">
+                <input type="number" id="blood-pressure" name="blood-pressure" placeholder="Enter blood pressure" required>
             </div>
             <div>
                 <label for="insulin-level">Insulin Level</label>
-                <input type="number" id="insulin-level" name="insulin-level" placeholder="Enter insulin level">
+                <input type="number" id="insulin-level" name="insulin-level" placeholder="Enter insulin level" required>
             </div>
             <div>
                 <label for="diabetes-pedigree">Diabetes Pedigree Function</label>
-                <input type="number" id="diabetes-pedigree" name="diabetes-pedigree" step="0.01" placeholder="Enter diabetes pedigree">
+                <input type="number" id="diabetes-pedigree" name="diabetes-pedigree" step="0.01" placeholder="Enter diabetes pedigree" required>
             </div>
             <div>
                 <label for="glucose-level">Glucose Level</label>
-                <input type="number" id="glucose-level" name="glucose-level" placeholder="Enter glucose level">
+                <input type="number" id="glucose-level" name="glucose-level" placeholder="Enter glucose level" required>
             </div>
             <div>
                 <label for="skin-thickness">Skin Thickness</label>
-                <input type="number" id="skin-thickness" name="skin-thickness" placeholder="Enter skin thickness">
+                <input type="number" id="skin-thickness" name="skin-thickness" placeholder="Enter skin thickness" required>
             </div>
             <div>
                 <label for="bmi">Body Mass Index</label>
-                <input type="number" id="bmi" name="bmi" placeholder="Enter BMI">
+                <input type="number" id="bmi" name="bmi" placeholder="Enter BMI" required>
             </div>
             <div>
                 <label for="age">Age</label>
-                <input type="number" id="age" name="age" placeholder="Enter age">
+                <input type="number" id="age" name="age" placeholder="Enter age" required>
             </div>
-            <button type="submit">Check Results</button>
+            <button type="submit" onclick="checkResult(event)">Check Results</button>
         </div>
     </div>
 
+    <script>
+       async function checkResult(event) {
+    event.preventDefault();
+    
+    const requestData = {
+        pregnancies: document.getElementById("pregnancies").value,
+        bloodPressure: document.getElementById("blood-pressure").value,
+        insulinLevel: document.getElementById("insulin-level").value,
+        diabetesPedigree: document.getElementById("diabetes-pedigree").value,
+        glucoseLevel: document.getElementById("glucose-level").value,
+        skinThickness: document.getElementById("skin-thickness").value,
+        bmi: document.getElementById("bmi").value,
+        age: document.getElementById("age").value
+    };
+
+    try {
+        const response = await fetch('http://localhost:5000/api/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) throw new Error("Server response not OK");
+        
+        const result = await response.json();
+        console.log("Server response:", result);
+
+        // Ensure prediction is treated as number
+        const prediction = Number(result.prediction);
+        
+        let message = prediction === 1 
+            ? "⚠ High risk of diabetes. Please consult a doctor." 
+            : "✅ Low risk of diabetes. Keep up a healthy lifestyle!";
+        
+        alert(message);
+
+    } catch (err) {
+        console.error("Error:", err);
+        alert(`Error: ${err.message || "Failed to get prediction"}`);
+    }
+}
+     </script>
 </body>
 </html>

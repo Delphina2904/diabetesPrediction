@@ -1,66 +1,101 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
-
-// Initialize Express app
+const { spawn } = require('child_process');
 const app = express();
 
-// Load environment variables
-dotenv.config();
-
-// Middleware to parse JSON
+app.use(cors());
 app.use(express.json());
 
-// Use CORS middleware
-app.use(cors({
-    origin: 'http://localhost:3000', // Frontend URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-    credentials: true // Allow cookies or authentication headers
-}));
-
-// Import health history routes
-const healthHistoryRoutes = require('./routes/healthHistory');
-
-// Connect to MongoDB
-const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log('MongoDB Connected...');
-    } catch (err) {
-        console.error(err.message);
-        process.exit(1); // Exit process with failure
-    }
-};
-
-connectDB();
-
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/health-history', healthHistoryRoutes);
-app.use('/api/predict', require('./routes/prediction'));
-
-// Allow preflight requests for all routes
-app.options('*', cors());
-
-// Example of a login route
+// Dummy login endpoint
 app.post('/login', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-    // Login logic here
-    res.status(200).json({ message: 'Login successful' });
+    const { username, password } = req.body;
+    if (username && password) {
+        res.status(200).json({ token: 'dummy-token' });
+    } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+    }
 });
 
-// Serve static files (if any)
-app.use(express.static('public'));
-
-// Start server
-app.listen(5000, () => {
-    console.log('Server running on http://localhost:5000');
+app.get('/', (req, res) => {
+    res.send('Server is working!');
 });
+
+app.post('/api/predict', (req, res) => {
+    const data = req.body;
+    console.log("Received data:", data);
+
+    // Validate input data
+    if (!validateInput(data)) {
+        return res.status(400).json({ error: "Invalid input data" });
+    }
+
+    let hasResponded = false; // Flag to track response status
+    const pythonProcess = spawn('python', [
+        'predict_diabetes.py',
+        data.pregnancies,
+        data.bloodPressure,
+        data.insulinLevel,
+        data.diabetesPedigree,
+        data.glucoseLevel,
+        data.skinThickness,
+        data.bmi,
+        data.age
+    ]);
+
+    let predictionData = '';
+    let errorData = '';
+
+    const sendResponse = (status, data) => {
+        if (!hasResponded) {
+            hasResponded = true;
+            res.status(status).json(data);
+        }
+    };
+
+    pythonProcess.stdout.on('data', (chunk) => {
+        predictionData += chunk.toString();
+    });
+
+    pythonProcess.stderr.on('data', (chunk) => {
+        errorData += chunk.toString();
+    });
+
+    pythonProcess.on('close', (code) => {
+        if (code !== 0) {
+            console.error(`Python script exited with code ${code}: ${errorData}`);
+            return sendResponse(500, { error: "Prediction failed", details: errorData });
+        }
+
+        try {
+            const result = JSON.parse(predictionData);
+            console.log(`Prediction: ${result.prediction}`);
+            sendResponse(200, { prediction: Number(result.prediction) });
+        } catch (error) {
+            console.error("Error parsing prediction data:", error);
+            sendResponse(500, { 
+                error: "Invalid prediction response", 
+                details: predictionData 
+            });
+        }
+    });
+
+    pythonProcess.on('error', (error) => {
+        console.error(`Failed to start Python script: ${error}`);
+        sendResponse(500, { error: "Server error", details: error.message });
+    });
+});
+
+function validateInput(data) {
+    const requiredFields = [
+        'pregnancies', 'bloodPressure', 'insulinLevel',
+        'diabetesPedigree', 'glucoseLevel', 'skinThickness',
+        'bmi', 'age'
+    ];
+    
+    return requiredFields.every(field => 
+        data[field] !== undefined && 
+        !isNaN(parseFloat(data[field]))
+    );
+}
+
+app.listen(5000, () => console.log('Server running on port 5000'));
