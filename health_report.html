@@ -1,275 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiaPredict - Health Report</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #e0f7fa 0%, #ede7f6 100%);
-            display: flex;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #90caf9;
-            height: 100vh;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 30px;
-        }
-
-        .sidebar .logo h2 {
-            font-size: 22px;
-            color: #ff4081;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding-left: 20px;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 20px;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            font-size: 18px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #ffffff33;
-            transform: translateX(10px);
-            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar .logout {
-            padding: 20px;
-            font-size: 18px;
-            color: #fff;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .sidebar .logout:hover {
-            background-color: #42a5f5;
-            transform: scale(1.05);
-        }
-
-        .main-content {
-            flex-grow: 1;
-            padding: 40px;
-        }
-
-        .report-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: 0 auto;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .report-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .report-header {
-            text-align: center;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .report-header h2 {
-            color: #424242;
-        }
-
-        .report-details {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .report-details label {
-            font-size: 16px;
-            color: #424242;
-            transition: color 0.3s ease;
-        }
-
-        .report-details input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
-
-        .report-details input:focus {
-            border-color: #ff80ab;
-            background-color: #fff5f8;
-        }
-
-        .health-summary {
-            background: linear-gradient(135deg, #ff80ab, #80cbc4);
-            padding: 20px;
-            border-radius: 12px;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .health-summary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .health-summary div {
-            text-align: center;
-        }
-
-        .health-summary h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .health-summary p {
-            font-size: 16px;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: flex-end;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        .topbar img {
-            height: 30px;
-            margin-left: 15px;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .topbar img:nth-child(1) {
-            width: 40px;
-        }
-
-        .topbar img:nth-child(2) {
-            width: 30px;
-        }
-
-        .topbar img:hover {
-            transform: scale(1.1);
-            opacity: 0.8;
-        }
-
-        @media screen and (max-width: 768px) {
-            .main-content {
-                padding: 20px;
-            }
-
-            .report-container {
-                padding: 20px;
-            }
-
-            .report-header h2 {
-                font-size: 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>DiaPredict – Health Report</title>
+  <style>
+    /* your existing CSS… */
+    * { margin:0; padding:0; box-sizing:border-box }
+    body { font-family:Arial,sans-serif; background:linear-gradient(180deg,#e0f7fa,#ede7f6); display:flex }
+    .sidebar { width:250px; background:#90caf9; display:flex;flex-direction:column;justify-content:space-between;padding:20px 0 }
+    .sidebar .logo h2 { text-align:center; color:#ff4081; margin-bottom:30px }
+    .sidebar ul { list-style:none; padding-left:20px }
+    .sidebar ul li { margin-bottom:20px }
+    .sidebar ul li a { color:#fff; text-decoration:none; padding:8px; display:block; border-radius:6px; transition:background .3s }
+    .sidebar ul li a:hover { background:rgba(255,255,255,0.2) }
+    .sidebar .logout { text-align:center; color:#fff; cursor:pointer; padding:12px; transition:background .3s }
+    .sidebar .logout:hover { background:#42a5f5 }
+    .main-content { flex-grow:1; padding:40px }
+    .report-container { background:#fff; padding:30px; border-radius:12px; max-width:800px; margin:0 auto; box-shadow:0 4px 12px rgba(0,0,0,0.1) }
+    .report-header { text-align:center; border-bottom:2px solid #f0f0f0; padding-bottom:20px; margin-bottom:20px }
+    .report-details { display:flex; flex-direction:column; gap:12px; }
+    .report-details label { font-size:14px; color:#424242 }
+    .report-details input { width:100%; padding:8px; border:1px solid #ddd; border-radius:6px; background:#f9f9f9 }
+    .health-summary { display:flex; justify-content:space-between; background:linear-gradient(135deg,#ff80ab,#80cbc4); padding:16px; border-radius:8px; color:#fff; margin-top:20px }
+  </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo">
-            <h2>DiaPredict</h2>
+  <div class="sidebar">
+    <div class="logo"><h2>DiaPredict</h2></div>
+    <ul>
+      <li><a href="del2.html">Home</a></li>
+      <li><a href="profile.html">Your Profile</a></li>
+      <li><a href="health_report.html">Health Report</a></li>
+      <li><a href="about.html">About us</a></li>
+      <li><a href="contact.html">Contact us</a></li>
+      <li><a href="help.html">Help & Support</a></li>
+    </ul>
+    <div class="logout" onclick="logout()">LOG OUT</div>
+  </div>
+
+  <div class="main-content">
+    <div class="report-container">
+      <div class="report-header"><h2>Your Health Report</h2></div>
+      <div class="report-details">
+        <label>Glucose Level (mg/dL):<input id="rep-glucose" disabled></label>
+        <label>Blood Pressure:<input id="rep-bp" disabled></label>
+        <label>Cholesterol (mg/dL):<input id="rep-cholesterol" disabled></label>
+        <label>Weight (kg):<input id="rep-weight" disabled></label>
+      </div>
+      <div class="health-summary">
+        <div>
+          <h3>Overall Health</h3>
+          <p id="rep-overall"></p>
         </div>
-
-        <ul>
-            <li><a href="del2.html">Home</a></li> 
-            <li><a href="profile.html">Your Profile</a></li>
-            <li><a href="health_report.html">Health Report</a></li>
-            <li><a href="about.html">About us</a></li>
-            <li><a href="contact.html">Contact us</a></li>
-            <li><a href="help.html">Help and Support</a></li>
-        </ul>
-
-        <div class="logout">LOG OUT</div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="report-container">
-            <div class="report-header">
-                <h2>Your Health Report</h2>
-            </div>
-            <div class="report-details">
-                <div>
-                    <label for="glucose-level">Glucose Level (mg/dL):</label>
-                    <input type="text" id="glucose-level" value="135" disabled>
-                </div>
-                <div>
-                    <label for="blood-pressure">Blood Pressure (mmHg):</label>
-                    <input type="text" id="blood-pressure" value="120/80" disabled>
-                </div>
-                <div>
-                    <label for="cholesterol">Cholesterol Level (mg/dL):</label>
-                    <input type="text" id="cholesterol" value="190" disabled>
-                </div>
-                <div>
-                    <label for="weight">Weight (kg):</label>
-                    <input type="text" id="weight" value="75" disabled>
-                </div>
-            </div>
-
-            <div class="health-summary">
-                <div>
-                    <h3>Overall Health</h3>
-                    <p>Good</p>
-                </div>
-                <div>
-                    <h3>Risk Level</h3>
-                    <p>Low</p>
-                </div>
-            </div>
+        <div>
+          <h3>Risk Level</h3>
+          <p id="rep-risk"></p>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Topbar -->
-    <div class="topbar">
-        <img src="help.png" alt="Help Icon">
-        <img src="profile.jpg" alt="User Icon">
-    </div>
+  <script>
+    // logout + redirect
+    function logout(){
+      localStorage.removeItem('token');
+      window.location='login.html';
+    }
+    if(!localStorage.getItem('token')) window.location='login.html';
 
+    // load last history
+    const hist = JSON.parse(localStorage.getItem('diabetesHistory')||'[]');
+    if(!hist.length){
+      alert('No prediction history found');
+    } else {
+      const last = hist[hist.length-1];
+      // map inputs → report fields
+      document.getElementById('rep-glucose').value     = last.inputs.glucose_level ?? last.inputs.glucoseLevel;
+      document.getElementById('rep-bp').value          = last.inputs.bloodPressure || '—';
+      document.getElementById('rep-cholesterol').value = last.inputs.insulinLevel   != null
+        ? last.inputs.insulinLevel   : '—';
+      document.getElementById('rep-weight').value      = last.inputs.bmi;
+      // overall & risk
+      document.getElementById('rep-overall').textContent = last.result===1
+        ? 'High risk — please consult a doctor'
+        : 'Low risk — keep up a healthy lifestyle';
+      document.getElementById('rep-risk').textContent    = last.result===1 ? 'High' : 'Low';
+    }
+  </script>
 </body>
 </html>

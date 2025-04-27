@@ -13,7 +13,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #e0f7fa 0%, #ede7f6 100%);
+            background: linear-gradient(180deg, #7fd7e2 0%, #e69fd0 100%);
             display: flex;
         }
 
@@ -32,7 +32,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        .sidebar .logo img {
+            width: 50px; /* Set a fixed width */
+            height: auto; /* Maintain the aspect ratio */
+            margin-right: 10px; /* Space between logo and text */
         }
 
         .sidebar .logo h2 {
@@ -51,7 +57,7 @@
 
         .sidebar ul li a {
             text-decoration: none;
-            font-size: 18px;
+            font-size: 22px;
             color: #fff;
             display: flex;
             align-items: center;
@@ -95,15 +101,24 @@
         }
 
         .option-card {
-            width: 300px;
-            padding: 30px;
-            background: linear-gradient(to right, #80cbc4, #ff80ab);
-            border-radius: 15px;
             display: flex;
+            justify-content: center;
             align-items: center;
-            color: #fff;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 700px;
+            height: 150px;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #f37fda, #1ab7df);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: transform 0.2s ease-in-out;
+            margin: 20px auto;
+            word-wrap: break-word;
+            white-space: normal;
         }
 
         .option-card:hover {
@@ -113,15 +128,15 @@
 
         .main-content .illustration {
             position: relative;
-            width: 400px; /* Set width for the illustration container */
-            height: auto; /* Maintain aspect ratio */
-            overflow: hidden; /* Clip excess image parts */
+            width: 550px;
+            height: 400px;
+            overflow: hidden;
         }
 
         .main-content .illustration img {
-            width: 100%; /* Adjust to fill the container */
-            height: auto; /* Maintain aspect ratio */
-            mix-blend-mode: multiply; /* Blend mode to visually remove the background */
+            width: 100%;
+            height: auto;
+            mix-blend-mode: multiply;
         }
 
         /* Topbar */
@@ -133,23 +148,29 @@
         }
 
         .topbar img {
-            height: 30px; /* Set height for icons */
+            height: 30px;
             margin-left: 15px;
-            transition: transform 0.3s ease; /* Optional: Add hover effect */
-            mix-blend-mode: multiply; /* Apply blend mode to icons */
+            transition: transform 0.3s ease;
+            mix-blend-mode: multiply;
         }
 
         .topbar img:nth-child(1) {
-            width: 40px; /* Set width for help icon */
+            width: 40px;
         }
 
         .topbar img:nth-child(2) {
-            width: 30px; /* Set width for user icon */
+            width: 30px;
         }
 
         .topbar img:hover {
-            transform: scale(1.1); /* Optional: Scale effect on hover */
+            transform: scale(1.1);
         }
+
+        .illustration img {
+            width: 440px !important;
+            height: 400px !important;
+        }
+
     </style>
 </head>
 <body>
@@ -157,6 +178,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
+            <img src="your-logo.jpg" alt="DiaPredict Logo">
             <h2>DiaPredict</h2>
         </div>
 
@@ -176,11 +198,11 @@
     <div class="main-content">
         <div class="options">
             <a href="del3.html" class="option-card">
-                <span>Predict Diabetes</span>
+                <span>Predict Diabetes With Blood Report</span>
             </a>
-            <div class="option-card">
-                <span>View Health History</span>
-            </div>
+            <a href="noBloodReport.html" class="option-card">
+                <span>Predict Diabetes Without Blood Report</span>
+            </a>
         </div>
         <div class="illustration">
             <img src="sympp.png" alt="Diabetes Symptoms Illustration">
@@ -192,14 +214,22 @@
         <img src="help.png" alt="Help Icon">
         <img src="profile.jpg" alt="User Icon">
     </div>
+
     <script>
-    document.getElementById("logout-btn").addEventListener("click", function() {
-        // Clear sessionStorage or localStorage
-        localStorage.clear(); // This removes saved user data (login status)
-    
-        // Redirect to login page
-        window.location.href = "del2 (1).html"; // Replace with your login page URL
-    });
-</script>  
+        // Check if the user is logged in before loading this page
+        if (!localStorage.getItem('token')) {
+            alert('You need to log in first!');
+            window.location.href = '/login.html'; // Redirect to login if no token is found
+        }
+
+        document.getElementById("logout-btn").addEventListener("click", function() {
+            // Clear sessionStorage or localStorage
+            localStorage.clear(); // This removes saved user data (login status)
+        
+            // Redirect to login page
+            window.location.href = '/login.html'; // Redirect to login page after logout
+        });
+    </script>
+
 </body>
 </html>

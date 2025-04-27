@@ -1,25 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predict Diabetes</title>
-    <style>
-        /* Your existing CSS remains unchanged */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #e0f7fa 0%, #ede7f6 100%);
-            display: flex;
-        }
-
-        /* Sidebar styling */
-        .sidebar {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Predict Diabetes (Blood Report)</title>
+  <style>
+    /* Sidebar & layout (unchanged) */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:Arial,sans-serif; background:linear-gradient(180deg,#8bdce7,#ede7f6); display:flex; }
+    /* Sidebar styling */
+    .sidebar {
             width: 250px;
             background-color: #90caf9;
             height: 100vh;
@@ -33,223 +23,152 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        .sidebar .logo img {
+            width: 50px; /* Set a fixed width */
+            height: auto; /* Maintain the aspect ratio */
+            margin-right: 10px; /* Space between logo and text */
         }
 
         .sidebar .logo h2 {
             font-size: 22px;
             color: #ff4081;
         }
+    .sidebar ul { list-style:none; padding-left:20px }
+    .sidebar ul li { margin-bottom:20px }
+    .sidebar ul li a { color:#fff; text-decoration:none; padding:8px; display:block; border-radius:6px; transition:background .3s; }
+    .sidebar ul li a:hover { background:rgba(255,255,255,0.3) }
+    .sidebar .logout { text-align:center; color:#fff; cursor:pointer; padding:12px; transition:background .3s }
+    .sidebar .logout:hover { background:#42a5f5 }
 
-        .sidebar ul {
-            list-style: none;
-            padding-left: 20px;
-        }
+    /* Form styling */
+    .main-content { flex-grow:1; padding:40px }
+    h1 { text-align:center; color:#db316a; margin-bottom:30px }
+    .form-container {
+      display:grid; grid-template-columns:1fr 1fr; gap:20px;
+      max-width:800px; margin:0 auto; background:#fff; padding:30px; border-radius:12px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.1)
+    }
+    .form-container label { font-size:14px; color:#00796b; display:block }
+    .form-container input {
+      width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;
+      transition:box-shadow .2s, border-color .2s
+    }
+    .form-container input:focus { box-shadow:0 0 6px rgba(0,150,136,0.3); border-color:#80cbc4 }
 
-        .sidebar ul li {
-            margin-bottom: 20px;
-        }
+    /* Button */
+    button {
+      grid-column:span 2; padding:12px;
+      background:linear-gradient(to right,#80cbc4,#ff80ab);
+      color:#fff; font-size:16px; border:none; border-radius:8px; cursor:pointer;
+      transition:transform .2s
+    }
+    button:hover { transform:scale(1.02) }
 
-        .sidebar ul li a {
-            text-decoration: none;
-            font-size: 18px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        .sidebar .logout {
-            padding: 20px;
-            font-size: 18px;
-            color: #fff;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .sidebar .logout:hover {
-            background-color: #42a5f5;
-            transform: scale(1.1);
-        }
-
-        /* Main content styling */
-        .main-content {
-            flex-grow: 1;
-            padding: 40px;
-        }
-
-        .main-content h2 {
-            text-align: center;
-            color: #0097a7;
-            font-size: 28px;
-            margin-bottom: 30px;
-        }
-
-        .form-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container label {
-            font-size: 16px;
-            color: #00796b;
-            margin-bottom: 8px;
-        }
-
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .form-container input:hover {
-            box-shadow: 0 0 8px rgba(0, 150, 136, 0.3);
-        }
-
-        .form-container input:focus {
-            border-color: #80cbc4;
-            box-shadow: 0 0 8px rgba(0, 150, 136, 0.5);
-        }
-
-        .form-container button {
-            grid-column: span 2;
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            color: #fff;
-            background: linear-gradient(to right, #80cbc4, #ff80ab);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        .form-container button:hover {
-            background: linear-gradient(to right, #009688, #ff4081);
-            transform: scale(1.05);
-        }
-    </style>
+    /* Inline result box */
+    .result-box {
+      grid-column:span 2; margin-top:20px; padding:16px; border-radius:6px;
+      font-size:16px; text-align:center; display:none
+    }
+    .result-box.low  { background:#c8e6c9; color:#256029 }
+    .result-box.high { background:#ffcdd2; color:#c62828 }
+  </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo">
-            <h2>DiaPredict</h2>
-        </div>
-
-        <ul>
-            <li><a href="del2.html">Home</a></li>
-            <li><a href="profile.html">Your Profile</a></li>
-            <li><a href="health_report.html">Health Report</a></li>
-            <li><a href="about.html">About us</a></li>
-            <li><a href="contact.html">Contact us</a></li>
-            <li><a href="help.html">Help and Support</a></li>
-        </ul>
-
-        <div class="logout">LOG OUT</div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <img src="your-logo.jpg" alt="DiaPredict Logo">
+      <h2>DiaPredict</h2>
     </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <h2>PREDICT DIABETES</h2>
-        <div class="form-container">
-            <div>
-                <label for="pregnancies">Pregnancies</label>
-                <input type="number" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies" required>
-            </div>
-            <div>
-                <label for="blood-pressure">Blood Pressure</label>
-                <input type="number" id="blood-pressure" name="blood-pressure" placeholder="Enter blood pressure" required>
-            </div>
-            <div>
-                <label for="insulin-level">Insulin Level</label>
-                <input type="number" id="insulin-level" name="insulin-level" placeholder="Enter insulin level" required>
-            </div>
-            <div>
-                <label for="diabetes-pedigree">Diabetes Pedigree Function</label>
-                <input type="number" id="diabetes-pedigree" name="diabetes-pedigree" step="0.01" placeholder="Enter diabetes pedigree" required>
-            </div>
-            <div>
-                <label for="glucose-level">Glucose Level</label>
-                <input type="number" id="glucose-level" name="glucose-level" placeholder="Enter glucose level" required>
-            </div>
-            <div>
-                <label for="skin-thickness">Skin Thickness</label>
-                <input type="number" id="skin-thickness" name="skin-thickness" placeholder="Enter skin thickness" required>
-            </div>
-            <div>
-                <label for="bmi">Body Mass Index</label>
-                <input type="number" id="bmi" name="bmi" placeholder="Enter BMI" required>
-            </div>
-            <div>
-                <label for="age">Age</label>
-                <input type="number" id="age" name="age" placeholder="Enter age" required>
-            </div>
-            <button type="submit" onclick="checkResult(event)">Check Results</button>
-        </div>
-    </div>
-
-    <script>
-       async function checkResult(event) {
-    event.preventDefault();
     
-    const requestData = {
-        pregnancies: document.getElementById("pregnancies").value,
-        bloodPressure: document.getElementById("blood-pressure").value,
-        insulinLevel: document.getElementById("insulin-level").value,
-        diabetesPedigree: document.getElementById("diabetes-pedigree").value,
-        glucoseLevel: document.getElementById("glucose-level").value,
-        skinThickness: document.getElementById("skin-thickness").value,
-        bmi: document.getElementById("bmi").value,
-        age: document.getElementById("age").value
-    };
+    <ul>
+      <li><a href="del2.html">Home</a></li>
+      <li><a href="profile.html">Your Profile</a></li>
+      <li><a href="health_report.html">Health Report</a></li>
+      <li><a href="about.html">About us</a></li>
+      <li><a href="contact.html">Contact us</a></li>
+      <li><a href="help.html">Help & Support</a></li>
+    </ul>
+    <div class="logout" onclick="logout()">LOG OUT</div>
+  </div>
 
-    try {
-        const response = await fetch('http://localhost:5000/api/predict', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestData)
-        });
+  <!-- Form -->
+  <div class="main-content">
+    <h1>PREDICT DIABETES (Blood Report)</h1>
+    <form class="form-container" onsubmit="checkBlood(event)">
+      <label>Pregnancies<br><input id="pregnancies" type="number" required></label>
+      <label>Blood Pressure<br><input id="blood-pressure" type="number" required></label>
+      <label>Insulin Level<br><input id="insulin-level" type="number" required></label>
+      <label>Pedigree Function<br><input id="diabetes-pedigree" step="0.01" type="number" required></label>
+      <label>Glucose Level<br><input id="glucose-level" type="number" required></label>
+      <label>Skin Thickness<br><input id="skin-thickness" type="number" required></label>
+      <label>BMI<br><input id="bmi" type="number" step="0.1" required></label>
+      <label>Age<br><input id="age" type="number" required></label>
+      <button type="submit">Check Results</button>
 
-        if (!response.ok) throw new Error("Server response not OK");
-        
-        const result = await response.json();
-        console.log("Server response:", result);
+      <!-- inline result -->
+      <div id="result" class="result-box"></div>
+    </form>
+  </div>
 
-        // Ensure prediction is treated as number
-        const prediction = Number(result.prediction);
-        
-        let message = prediction === 1 
-            ? "⚠ High risk of diabetes. Please consult a doctor." 
-            : "✅ Low risk of diabetes. Keep up a healthy lifestyle!";
-        
-        alert(message);
-
-    } catch (err) {
-        console.error("Error:", err);
-        alert(`Error: ${err.message || "Failed to get prediction"}`);
+  <script>
+    // 1) Redirect if not logged in
+    if (!localStorage.getItem('token')) {
+      window.location = 'login.html';
     }
-}
-     </script>
+
+    // 2) Logout handler
+    function logout() {
+      localStorage.removeItem('token');
+      window.location = 'login.html';
+    }
+
+    // 3) Check blood-report prediction
+    async function checkBlood(e) {
+      e.preventDefault();
+
+      const inputs = {
+        pregnancies:      +document.getElementById('pregnancies').value,
+        bloodPressure:    +document.getElementById('blood-pressure').value,
+        insulinLevel:     +document.getElementById('insulin-level').value,
+        diabetesPedigree: +document.getElementById('diabetes-pedigree').value,
+        glucoseLevel:     +document.getElementById('glucose-level').value,
+        skinThickness:    +document.getElementById('skin-thickness').value,
+        bmi:              +document.getElementById('bmi').value,
+        age:              +document.getElementById('age').value
+      };
+
+      try {
+        const res = await fetch('http://127.0.0.1:5000/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(inputs)
+        });
+        const { prediction } = await res.json();
+
+        // show inline result box
+        const box = document.getElementById('result');
+        box.style.display = 'block';
+        const isHigh = (prediction === 1);
+        box.textContent  = isHigh
+          ? '⚠ High risk of diabetes. Please consult a doctor.'
+          : '✅ Low risk of diabetes. Keep up a healthy lifestyle!';
+        box.className    = 'result-box ' + (isHigh ? 'high' : 'low');
+
+        // also store in history for health report page
+        const hist = JSON.parse(localStorage.getItem('diabetesHistory') || '[]');
+        hist.push({ type:'blood', inputs, result:prediction });
+        localStorage.setItem('diabetesHistory', JSON.stringify(hist));
+
+      } catch (err) {
+        console.error(err);
+        alert('Error getting prediction. Is the server running?');
+      }
+    }
+  </script>
 </body>
 </html>

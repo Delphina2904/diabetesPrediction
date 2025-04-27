@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predict Diabetes (No Blood Report)</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:Arial,sans-serif; background:linear-gradient(180deg,#8bdce7,#ede7f6); display:flex; }
+    /* Sidebar styling */
+    .sidebar {
+            width: 250px;
+            background-color: #90caf9;
+            height: 100vh;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+
+        .sidebar .logo img {
+            width: 50px; /* Set a fixed width */
+            height: auto; /* Maintain the aspect ratio */
+            margin-right: 10px; /* Space between logo and text */
+        }
+
+        .sidebar .logo h2 {
+            font-size: 22px;
+            color: #ff4081;
+        }
+    .sidebar ul { list-style:none; padding-left:20px; }
+    .sidebar ul li { margin-bottom:20px; }
+    .sidebar ul li a { color:#fff; text-decoration:none; padding:8px; display:block; border-radius:6px; transition:background .3s; }
+    .sidebar ul li a:hover { background:rgba(255,255,255,0.3); }
+    .sidebar .logout { text-align:center; color:#fff; cursor:pointer; padding:12px; transition:background .3s; }
+    .sidebar .logout:hover { background:#42a5f5; }
+    .main-content { flex-grow:1; padding:40px; }
+    h1 { text-align:center; color:#db316a; margin-bottom:30px; }
+    .form-container {
+      display:grid; grid-template-columns:1fr 1fr; gap:20px;
+      max-width:800px; margin:0 auto; background:#fff; padding:30px; border-radius:12px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    }
+    .form-container label { font-size:14px; color:#00796b; display:block; }
+    .form-container input {
+      width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;
+      transition:box-shadow .2s, border-color .2s;
+    }
+    .form-container input:focus { box-shadow:0 0 6px rgba(0,150,136,0.3); border-color:#80cbc4; }
+    button {
+      grid-column:span 2; padding:12px;
+      background:linear-gradient(to right,#80cbc4,#ff80ab);
+      color:#fff; font-size:16px; border:none; border-radius:8px; cursor:pointer;
+      transition:transform .2s;
+    }
+    button:hover { transform:scale(1.02); }
+    .result-box {
+      grid-column:span 2; margin-top:20px; padding:16px; border-radius:6px;
+      font-size:16px; white-space:pre-line; display:none;
+    }
+    .result-box.low  { background:#c8e6c9; color:#256029; }
+    .result-box.high { background:#ffcdd2; color:#c62828; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+        <img src="your-logo.jpg" alt="DiaPredict Logo">
+        <h2>DiaPredict</h2>
+    </div>
+    <ul>
+      <li><a href="del2.html">Home</a></li>
+      <li><a href="profile.html">Your Profile</a></li>
+      <li><a href="health_report.html">Health Report</a></li>
+      <li><a href="about.html">About us</a></li>
+      <li><a href="contact.html">Contact us</a></li>
+      <li><a href="help.html">Help & Support</a></li>
+    </ul>
+    <div class="logout" onclick="logout()">LOG OUT</div>
+  </div>
+
+  <div class="main-content">
+    <h1>PREDICT DIABETES (No Blood Report)</h1>
+    <form class="form-container" onsubmit="checkResult(event)">
+      <!-- existing inputs -->
+      <label>Gender (0=Female, 1=Male)<br><input id="gender" type="number" min="0" max="1" required></label>
+      <label>Age<br><input id="age" type="number" required></label>
+      <label>Heart Disease (0=No, 1=Yes)<br><input id="heart-disease" type="number" min="0" max="1" required></label>
+      <label>Smoking Habit (0=Never, 1=Current, 2=No Info)<br><input id="smoking-habit" type="number" min="0" max="2" required></label>
+      <!-- NEW: Weight & Height -->
+      <label>Weight (kg)<br>
+        <input id="weight" type="number" step="0.1" placeholder="e.g. 70" required oninput="liveCalculate()">
+      </label>
+      
+      <label>Height (cm)<br>
+        <input id="height" type="number" step="0.1" placeholder="e.g. 170" required oninput="liveCalculate()">
+      </label>
+      
+      <label>Glucose Level<br>
+        <input id="glucose-level" type="number" required oninput="liveCalculate()">
+      </label>
+      
+      <label>Hba1c Level<br><input id="hba1c-level" type="number" step="0.1" readonly></label>
+      <label>BMI <br><input id="bmi" type="number" step="0.1" readonly></label>
+      <label>Heart Rate<br><input id="heart-rate" type="number" required></label>
+      <button type="submit">Check Results</button>
+      <div id="result" class="result-box"></div>
+    </form>
+  </div>
+
+  <script>
+    // logout & redirect
+    function logout() {
+      localStorage.removeItem('token');
+      window.location = 'login.html';
+    }
+    if (!localStorage.getItem('token')) window.location = 'login.html';
+
+    function computeExtras(data) {
+      // BMI
+      const h_m = data.height_cm / 100;
+      data.bmi = parseFloat((data.weight_kg / (h_m*h_m)).toFixed(2));
+      // HbA1c unchanged formula
+      data.hba1c_level = parseFloat(((data.glucose_level + 46.7) / 28.7).toFixed(2));
+    }
+    function liveCalculate() {
+  const weight = +document.getElementById('weight').value;
+  const height = +document.getElementById('height').value;
+  const glucose = +document.getElementById('glucose-level').value;
+
+  if (weight > 0 && height > 0) {
+    const h_m = height / 100;
+    const bmi = (weight / (h_m * h_m)).toFixed(2);
+    document.getElementById('bmi').value = bmi;
+  }
+  if (glucose > 0) {
+    const hba1c = ((glucose + 46.7) / 28.7).toFixed(2);
+    document.getElementById('hba1c-level').value = hba1c;
+  }
+}
+
+    async function checkResult(e) {
+      e.preventDefault();
+      // gather inputs
+      const data = {
+        gender:        +document.getElementById('gender').value,
+        age:           +document.getElementById('age').value,
+        heart_disease: +document.getElementById('heart-disease').value,
+        smoking_habit: +document.getElementById('smoking-habit').value,
+        weight_kg:     +document.getElementById('weight').value,
+        height_cm:     +document.getElementById('height').value,
+        glucose_level: +document.getElementById('glucose-level').value,
+        heart_rate:    +document.getElementById('heart-rate').value
+      };
+      // compute BMI & Hba1c
+      computeExtras(data);
+      // show computed BMI
+      document.getElementById('bmi').value = data.bmi;
+      document.getElementById('hba1c-level').value = data.hba1c_level;
+
+      try {
+        const res = await fetch('http://127.0.0.1:5000/api/predict_no_blood', {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(data)
+        });
+        const {prediction} = await res.json();
+        const box = document.getElementById('result');
+        box.style.display = 'block';
+        const isHigh = (prediction === 1);
+        // build multi-line message
+        let msg = `Your BMI: ${data.bmi}\n` +
+                  `Your HbA1c: ${data.hba1c_level}%\n` +
+                  (isHigh
+                    ? '⚠ High risk of diabetes. Please consult a doctor.'
+                    : '✅ Low risk of diabetes. Keep up a healthy lifestyle!');
+        box.textContent = msg;
+        box.className = 'result-box ' + (isHigh ? 'high' : 'low');
+
+        // store history for health report
+        const hist = JSON.parse(localStorage.getItem('diabetesHistory')||'[]');
+        hist.push({ type:'no-blood', inputs: data, result: prediction });
+        localStorage.setItem('diabetesHistory', JSON.stringify(hist));
+      } catch(err) {
+        console.error(err);
+        alert('Error getting prediction. Is the server running?');
+      }
+    }
+  </script>
+</body>
+</html>

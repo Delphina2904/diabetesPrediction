@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DiaPredict - Sign Up</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #5ebec9 0%, #ede7f6 100%);
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #f5f5f5;
+      transition: background-color 0.3s ease;
+    }
+
+    header:hover {
+      background-color: #e0e0e0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo img:hover {
+      transform: rotate(360deg);
+    }
+
+    .logo h1 {
+      font-size: 24px;
+      color: #ff4081;
+      transition: color 0.3s ease;
+    }
+
+    .logo h1:hover {
+      color: #ff80ab;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+    }
+
+    .signup-form {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .signup-form h2 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #ff4081;
+      outline: none;
+    }
+
+    .signup-btn {
+      background: linear-gradient(to right, #80cbc4, #ff80ab);
+      padding: 10px;
+      border: none;
+      color: #fff;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .signup-btn:hover {
+      background: linear-gradient(to right, #4db6ac, #ff4081);
+      transform: scale(1.05);
+    }
+
+    .toggle-form {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="your-logo.png" alt="DiaPredict Logo">
+      <h1>DiaPredict</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <form class="signup-form" id="signupForm">
+      <h2>Sign Up</h2>
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Choose a username" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Create a password" required>
+      </div>
+      <div class="input-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" placeholder="Enter your full name" required>
+      </div>
+      <div class="input-group">
+        <label for="email">Email (optional)</label>
+        <input type="email" id="email" placeholder="Enter your email">
+      </div>
+      <button type="submit" class="signup-btn">Create Account</button>
+      <div class="toggle-form">
+        <a href="login.html">Already have an account? Log in</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const name     = document.getElementById('name').value;
+      const email    = document.getElementById('email').value;
+
+      try {
+        const res = await fetch('http://localhost:5000/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, name, email })
+        });
+        const msg = await res.json();
+        if (res.ok) {
+          alert(msg.message);
+          window.location.href = 'login.html';
+        } else {
+          alert('Error: ' + msg.message);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Signup failed, please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

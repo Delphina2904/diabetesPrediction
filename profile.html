@@ -1,280 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiaPredict - Your Profile</title>
-    <style>
-        /* Same CSS as before */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #e0f7fa 0%, #ede7f6 100%);
-            display: flex;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #90caf9;
-            height: 100vh;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 30px;
-        }
-
-        .sidebar .logo h2 {
-            font-size: 22px;
-            color: #ff4081;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding-left: 20px;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 20px;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            font-size: 18px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #ffffff33;
-            transform: translateX(10px);
-            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar .logout {
-            padding: 20px;
-            font-size: 18px;
-            color: #fff;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .sidebar .logout:hover {
-            background-color: #42a5f5;
-            transform: scale(1.05);
-        }
-
-        .main-content {
-            flex-grow: 1;
-            padding: 40px;
-        }
-
-        .profile-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
-            margin: 0 auto;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .profile-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .profile-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .profile-header h2 {
-            color: #424242;
-        }
-
-        .profile-header button {
-            padding: 10px 20px;
-            background-color: #ff4081;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .profile-header button:hover {
-            background-color: #ff80ab;
-            transform: scale(1.05);
-        }
-
-        .profile-details {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .profile-details label {
-            font-size: 16px;
-            color: #424242;
-            transition: color 0.3s ease;
-        }
-
-        .profile-details input, .profile-details textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
-
-        .profile-details input:focus, .profile-details textarea:focus {
-            border-color: #ff80ab;
-            background-color: #fff5f8;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: flex-end;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        .topbar img {
-            height: 30px;
-            margin-left: 15px;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .topbar img:nth-child(1) {
-            width: 40px;
-        }
-
-        .topbar img:nth-child(2) {
-            width: 30px;
-        }
-
-        .topbar img:hover {
-            transform: scale(1.1);
-            opacity: 0.8;
-        }
-
-        @media screen and (max-width: 768px) {
-            .main-content {
-                padding: 20px;
-            }
-
-            .profile-container {
-                padding: 20px;
-            }
-
-            .profile-header h2 {
-                font-size: 20px;
-            }
-
-            .profile-header button {
-                padding: 8px 16px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>DiaPredict – Your Profile</title>
+  <style>
+    /* (Your existing CSS unchanged) */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:Arial,sans-serif; background:linear-gradient(180deg,#e0f7fa 0%,#ede7f6 100%); display:flex; }
+    .sidebar { width:250px; background:#90caf9; height:100vh; padding:20px 0; display:flex; flex-direction:column; justify-content:space-between; }
+    .sidebar .logo h2 { text-align:center; color:#ff4081; margin-bottom:30px; }
+    .sidebar ul { list-style:none; padding-left:20px; }
+    .sidebar ul li { margin-bottom:20px; }
+    .sidebar ul li a { color:#fff; text-decoration:none; padding:10px; display:block; border-radius:8px; transition:background .3s; }
+    .sidebar ul li a:hover { background:rgba(255,255,255,0.2); }
+    .sidebar .logout { text-align:center; padding:15px; color:#fff; cursor:pointer; transition:background .3s; }
+    .sidebar .logout:hover { background:#42a5f5; }
+    .main-content { flex-grow:1; padding:40px; }
+    .profile-container { background:#fff; padding:30px; border-radius:15px; max-width:700px; margin:0 auto; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    .profile-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f0f0f0; padding-bottom:20px; margin-bottom:20px; }
+    .profile-header button { padding:10px 20px; background:#ff4081; color:#fff; border:none; border-radius:8px; cursor:pointer; transition:background .3s; }
+    .profile-header button:hover { background:#ff80ab; }
+    .profile-details { display:flex; flex-direction:column; gap:15px; }
+    .profile-details label { font-size:16px; color:#424242; }
+    .profile-details input, .profile-details textarea { width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; transition:border .3s; }
+    .profile-details input:focus, .profile-details textarea:focus { border-color:#ff80ab; background:#fff5f8; }
+  </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo">
-            <h2>DiaPredict</h2>
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo"><h2>DiaPredict</h2></div>
+    <ul>
+      <li><a href="del2.html">Home</a></li>
+      <li><a href="profile.html">Your Profile</a></li>
+      <li><a href="health_report.html">Health Report</a></li>
+      <li><a href="about.html">About us</a></li>
+      <li><a href="contact.html">Contact us</a></li>
+      <li><a href="help.html">Help & Support</a></li>
+    </ul>
+    <div class="logout" id="logoutBtn">LOG OUT</div>
+  </div>
 
-        <ul>
-            <li><a href="del2.html">Home</a></li> 
-            <li><a href="profile.html">Your Profile</a></li>
-            <li><a href="health_report.html">Health Report</a></li>
-            <li><a href="about.html">About us</a></li>
-            <li><a href="contact.html">Contact us</a></li>
-            <li><a href="help.html">Help and Support</a></li>
-        </ul>
-
-        <div class="logout">LOG OUT</div>
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="profile-container">
+      <div class="profile-header">
+        <h2>Your Profile</h2>
+        <button id="editBtn">Edit</button>
+      </div>
+      <div class="profile-details">
+        <label>Name:</label>
+        <input id="name" disabled>
+        <label>Email:</label>
+        <input id="email" disabled>
+        <label>Age:</label>
+        <input id="age" disabled>
+        <label>Phone:</label>
+        <input id="phone" disabled>
+        <label>Address:</label>
+        <textarea id="address" rows="3" disabled></textarea>
+        <label>Medical History:</label>
+        <textarea id="medical" rows="5" disabled></textarea>
+      </div>
     </div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="profile-container">
-            <div class="profile-header">
-                <h2>Your Profile</h2>
-                <button id="edit-btn">Edit</button>
-            </div>
-            <div class="profile-details">
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" value="John Doe" disabled>
-                </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" value="john.doe@example.com" disabled>
-                </div>
-                <div>
-                    <label for="age">Age:</label>
-                    <input type="text" id="age" value="35" disabled>
-                </div>
-                <div>
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" value="123-456-7890" disabled>
-                </div>
-                <div>
-                    <label for="address">Address:</label>
-                    <textarea id="address" rows="3" disabled>123 Main Street, City, Country</textarea>
-                </div>
-                <div>
-                    <label for="medical">Medical History:</label>
-                    <textarea id="medical" rows="5" disabled>Diabetes Type 2 - Diagnosed in 2020</textarea>
-                </div>
-            </div>
-        </div>
-    </div>
+  <script>
+    // Redirect if not logged in
+    if (!localStorage.getItem('token')) {
+      window.location.href = 'login.html';
+    }
 
-    <!-- Topbar -->
-    <div class="topbar">
-        <img src="help.png" alt="Help Icon">
-        <img src="profile.jpg" alt="User Icon">
-    </div>
+    // Logout button
+    document.getElementById('logoutBtn').onclick = () => {
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    };
 
-    <!-- JavaScript for enabling edit mode -->
-    <script>
-        document.getElementById('edit-btn').addEventListener('click', function () {
-            // Toggle disabled property on all input and textarea fields
-            const inputs = document.querySelectorAll('.profile-details input, .profile-details textarea');
-            inputs.forEach(input => {
-                input.disabled = !input.disabled; // Toggle between true and false
-            });
+    // Load profile data
+    async function loadProfile() {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:5000/api/profile', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) return alert('Failed to load profile');
+      const data = await res.json();
+      document.getElementById('name').value    = data.name;
+      document.getElementById('email').value   = data.email;
+      document.getElementById('age').value     = data.age;
+      document.getElementById('phone').value   = data.phone;
+      document.getElementById('address').value = data.address;
+      document.getElementById('medical').value = data.medicalHistory;
+    }
+    loadProfile();
 
-            // Change button text based on the state
-            this.textContent = this.textContent === 'Edit' ? 'Save' : 'Edit';
+    // Edit / Save toggle
+    document.getElementById('editBtn').onclick = async function() {
+      const inputs = document.querySelectorAll('.profile-details input, .profile-details textarea');
+      const editing = inputs[0].disabled;
+      inputs.forEach(el => el.disabled = !editing);
+      this.textContent = editing ? 'Save' : 'Edit';
+
+      if (editing) {
+        // Save changes
+        const token = localStorage.getItem('token');
+        const payload = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          age: document.getElementById('age').value,
+          phone: document.getElementById('phone').value,
+          address: document.getElementById('address').value,
+          medicalHistory: document.getElementById('medical').value
+        };
+        const res = await fetch('http://localhost:5000/api/profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(payload)
         });
-    </script>
+        if (!res.ok) alert('Failed to save');
+      }
+    };
+  </script>
 
 </body>
 </html>
